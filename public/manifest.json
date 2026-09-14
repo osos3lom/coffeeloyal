@@ -1,0 +1,12 @@
+{
+  "name": "Princes' Coffee — قهوة الأمراء",
+  "short_name": "Princes' Coffee",
+  "description": "Quiet Arabian Royalty — Coffee Loyalty & Rewards",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F3F3ED",
+  "theme_color": "#2C3627",
+  "icons": [
+    { "src": "/logo.png", "sizes": "any", "type": "image/png" }
+  ]
+}

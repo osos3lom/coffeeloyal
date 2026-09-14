@@ -1,0 +1,399 @@
+@import "tailwindcss";
+
+/* ============================================================
+   PRINCES COFFEE — "QUIET ARABIAN ROYALTY"
+   قهوة الأمراء
+
+   Layer 1  Brand palette      — the source of truth
+   Layer 2  shadcn bridge      — semantic tokens mapped to brand
+   Layer 3  Typography         — direction-aware font switching
+   Layer 4  Surfaces & motion  — quiet-luxury primitives
+   ============================================================ */
+
+/* ---------- Layer 1: Brand palette ---------- */
+:root {
+  /* Morning Crema (Primary Light Surface & Foundation) */
+  --background: #F8F7F3;
+  --surface-crema: #F3F3ED;
+  --surface-white: #FFFFFF;
+  --crema-muted: #EBEAE2;
+  --crema-border: #E5E3D8;
+  --crema-border-subtle: #EFECE4;
+
+  /* Royal Olive (#53634B -> #2C3627 Hero Range) */
+  --olive-light: #687960;
+  --olive-hero: #53634B;
+  --olive-medium: #3E4B37;
+  --olive-dark: #2C3627;
+  --olive-deep: #1E261A;
+  --olive-surface: #F0F3EE;
+  --olive-border: #DCE4D8;
+
+  /* Muted Gold (#C5A869 -> #E8D399) - Used Sparingly for CTAs & Fine Accents */
+  --gold-highlight: #F5E8C8;
+  --gold-light: #E8D399;
+  --gold-muted: #C5A869;
+  --gold-dark: #A18548;
+  --gold-surface: #FAF7F0;
+  --gold-border: #E2D3B1;
+
+  /* Roasted Cacao (#181512 -> #302B25) - Coffee Grounding */
+  --cacao-primary: #181512;
+  --cacao-surface: #221D18;
+  --cacao-warm: #302B25;
+  --cacao-muted: #675E54;
+  --cacao-subtle: #968D82;
+  --cacao-border: #3A332B;
+
+  --foreground: var(--cacao-primary);
+  --surface: var(--surface-white);
+
+  /* ---------- Layer 2: shadcn semantic bridge ----------
+     Every shadcn component resolves through these, so the component
+     library is on-brand by default and no component ever needs a
+     hardcoded hex. */
+  --card: #FFFFFF;
+  --card-foreground: #181512;
+  --popover: #FFFFFF;
+  --popover-foreground: #181512;
+
+  --primary: #53634B;              /* Royal Olive */
+  --primary-foreground: #F8F7F3;
+  --secondary: #F0F3EE;            /* Olive surface */
+  --secondary-foreground: #2C3627;
+
+  --muted: #F3F3ED;
+  --muted-foreground: #675E54;
+
+  --accent: #C5A869;               /* Antique Gold — scarce by design */
+  --accent-foreground: #181512;
+
+  --destructive: #A8423F;
+  --destructive-foreground: #F8F7F3;
+
+  --border: #E5E3D8;
+  --input: #E5E3D8;
+  --ring: #C5A869;                 /* Gold focus ring */
+
+  --radius: 0.875rem;              /* matches .crema-card */
+
+  /* ---------- Rhythm, elevation, motion ---------- */
+  --section-y: clamp(5rem, 12vw, 9rem);
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+
+  --shadow-ambient: 0 4px 20px -4px rgba(24, 21, 18, 0.05), 0 1px 3px 0 rgba(24, 21, 18, 0.03);
+  --shadow-lifted: 0 12px 36px -8px rgba(24, 21, 18, 0.12), 0 2px 6px -1px rgba(24, 21, 18, 0.05);
+
+  --ease-royal: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-quick: 200ms;
+  --dur-reveal: 420ms;
+}
+
+@theme inline {
+  /* Brand scale — kept for direct utility access */
+  --color-crema-base: #F8F7F3;
+  --color-crema-surface: #F3F3ED;
+  --color-crema-pure: #FFFFFF;
+  --color-crema-muted: #EBEAE2;
+  --color-crema-border: #E5E3D8;
+  --color-crema-border-subtle: #EFECE4;
+
+  --color-olive-light: #687960;
+  --color-olive-hero: #53634B;
+  --color-olive-medium: #3E4B37;
+  --color-olive-dark: #2C3627;
+  --color-olive-deep: #1E261A;
+  --color-olive-surface: #F0F3EE;
+  --color-olive-border: #DCE4D8;
+
+  --color-gold-highlight: #F5E8C8;
+  --color-gold-light: #E8D399;
+  --color-gold-muted: #C5A869;
+  --color-gold-dark: #A18548;
+  --color-gold-surface: #FAF7F0;
+  --color-gold-border: #E2D3B1;
+
+  --color-cacao-primary: #181512;
+  --color-cacao-surface: #221D18;
+  --color-cacao-warm: #302B25;
+  --color-cacao-muted: #675E54;
+  --color-cacao-subtle: #968D82;
+  --color-cacao-border: #3A332B;
+
+  /* shadcn semantic tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Radius scale (CLI v4 multiplicative) */
+  --radius-xs: calc(var(--radius) * 0.5);
+  --radius-sm: calc(var(--radius) * 0.75);
+  --radius-md: calc(var(--radius) * 0.875);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+}
+
+/* ---------- Layer 3: Typography ----------
+   Font families live in plain (unlayered) CSS rather than @theme so they
+   always beat Tailwind's layered output, and so that switching direction
+   swaps the entire type system by redefining two variables.
+   next/font injects the --font-* custom properties onto <html>. */
+:root {
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-display-latin), "Cormorant Garamond", Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Fluid type scale */
+  --step-display: clamp(2.75rem, 1.6rem + 5.4vw, 5.5rem);
+  --step-h1: clamp(2rem, 1.3rem + 3.2vw, 3.5rem);
+  --step-h2: clamp(1.5rem, 1.15rem + 1.6vw, 2.25rem);
+  --step-h3: clamp(1.175rem, 1.05rem + 0.6vw, 1.5rem);
+  --step-body: clamp(0.95rem, 0.91rem + 0.2vw, 1.0625rem);
+  --step-small: 0.8125rem;
+}
+
+/* Arabic swaps the whole system: Plex Arabic for UI, Amiri for display. */
+[dir="rtl"] {
+  --font-sans: var(--font-ui-arabic), "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --font-display: var(--font-display-arabic), "Amiri", "Traditional Arabic", serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--cacao-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Arabic needs more air than latin at the same size. */
+[dir="rtl"] body {
+  line-height: 1.9;
+  letter-spacing: 0;
+}
+
+.font-brand-serif {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+[dir="rtl"] .font-brand-serif {
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* ---------- Layer 4: Quiet luxury surfaces & depth ---------- */
+.crema-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E3D8;
+  border-radius: 0.875rem;
+  box-shadow: 0 4px 20px -4px rgba(24, 21, 18, 0.03), 0 1px 3px 0 rgba(24, 21, 18, 0.02);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.crema-card:hover {
+  border-color: #D6D2C4;
+}
+
+.royal-hero-card {
+  background: linear-gradient(145deg, #53634B 0%, #2C3627 100%);
+  border: 1px solid rgba(232, 211, 153, 0.15);
+  box-shadow: 0 8px 30px -6px rgba(44, 54, 39, 0.35), 0 2px 6px -1px rgba(24, 21, 18, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.royal-hero-card::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  inset-inline-end: -20%;
+  width: 120%;
+  height: 180%;
+  background: radial-gradient(circle at 60% 20%, rgba(232, 211, 153, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Scarcity of Gold - Refined Buttons & CTAs */
+.gold-button {
+  background: linear-gradient(135deg, #E8D399 0%, #C5A869 100%);
+  color: #181512;
+  font-weight: 600;
+  border: 1px solid rgba(161, 133, 72, 0.3);
+  box-shadow: 0 2px 8px -1px rgba(197, 168, 105, 0.25);
+  transition: all 0.2s ease;
+}
+
+.gold-button:hover {
+  background: linear-gradient(135deg, #F3E2B3 0%, #D4B877 100%);
+  box-shadow: 0 4px 14px -1px rgba(197, 168, 105, 0.35);
+}
+
+.olive-button {
+  background: linear-gradient(145deg, #53634B 0%, #2C3627 100%);
+  color: #F8F7F3;
+  font-weight: 600;
+  border: 1px solid rgba(232, 211, 153, 0.12);
+  box-shadow: 0 2px 8px -1px rgba(44, 54, 39, 0.3);
+  transition: all 0.2s ease;
+}
+
+.olive-button:hover {
+  background: linear-gradient(145deg, #5C6E53 0%, #354130 100%);
+}
+
+/* Subtle Gold Hairline Accent */
+.gold-hairline {
+  border-color: rgba(197, 168, 105, 0.3);
+}
+
+/* A single hairline rule — gold, fading at both ends. */
+.hairline-gold {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(197, 168, 105, 0.45) 18%,
+    rgba(197, 168, 105, 0.45) 82%,
+    transparent
+  );
+}
+
+/* Stamp Seal Styles */
+.stamp-filled {
+  background: linear-gradient(145deg, #FBF8F0 0%, #FAF5E9 100%);
+  border: 1.5px solid #C5A869;
+  color: #53634B;
+  box-shadow: 0 2px 6px -1px rgba(197, 168, 105, 0.2);
+}
+
+.stamp-empty {
+  background-color: #F8F7F3;
+  border: 1.5px dashed #E5E3D8;
+  color: #B5AEA4;
+}
+
+/* ---------- Navigation glass ----------
+   The inset top highlight is what makes these read as a solid physical
+   object rather than a blurred rectangle. */
+.glass-nav {
+  background: rgba(83, 99, 75, 0.14);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 8px 32px -8px rgba(24, 21, 18, 0.16);
+  transition: background var(--dur-quick) var(--ease-royal),
+              border-color var(--dur-quick) var(--ease-royal),
+              box-shadow var(--dur-quick) var(--ease-royal);
+}
+
+.glass-nav--scrolled {
+  background: rgba(248, 247, 243, 0.82);
+  border-color: rgba(197, 168, 105, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 8px 28px -10px rgba(24, 21, 18, 0.18);
+}
+
+.glass-tabbar {
+  background: rgba(248, 247, 243, 0.86);
+  backdrop-filter: blur(22px) saturate(165%);
+  -webkit-backdrop-filter: blur(22px) saturate(165%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 10px 32px -8px rgba(24, 21, 18, 0.22);
+}
+
+/* Fade the edges of a horizontal snap-scroller */
+.edge-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+/* Safe-area padding so content clears the floating mobile tab bar */
+.pb-tabbar {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 5.5rem);
+}
+
+@media (min-width: 768px) {
+  .pb-tabbar {
+    padding-bottom: 0;
+  }
+}
+
+/* ---------- Motion ----------
+   Entrance and reveal run on CSS animations rather than JS. Content that
+   needs JavaScript to become visible is fragile: it stays at opacity 0
+   through slow hydration, for crawlers, and in throttled tabs. CSS paints
+   regardless. framer-motion is reserved for genuinely interactive motion
+   (the tab-bar pill, sheets). */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.65s var(--ease-royal) both;
+}
+
+/* Scroll reveal: starts visible, and is only hidden once JS confirms it can
+   observe and restore it — so no-JS and pre-hydration still show content. */
+.js-reveal[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.js-reveal[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur-reveal) var(--ease-royal),
+    transform var(--dur-reveal) var(--ease-royal);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal[data-reveal="pending"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

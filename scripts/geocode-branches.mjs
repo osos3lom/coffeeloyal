@@ -1,0 +1,190 @@
+/**
+ * Geocodes the 37 branches via OpenStreetMap Nominatim and writes
+ * src/lib/content/branch-coords.ts.
+ *
+ *   node scripts/geocode-branches.mjs
+ *
+ * IMPORTANT — these coordinates are APPROXIMATE. Nominatim resolves the
+ * street/district in the address, not the shop unit, so a pin can sit some
+ * distance from the actual door. They are good enough to rank branches by
+ * proximity and to orient a map; they are not survey data. The "Directions"
+ * link on each branch points at a Google Maps *search* for the business, so
+ * turn-by-turn navigation resolves the real location rather than this guess.
+ *
+ * Replace any entry with exact values when you have them — the file is a
+ * plain lookup and hand edits survive unless this script is re-run.
+ *
+ * Nominatim usage policy: max 1 request/second, identifying User-Agent.
+ */
+
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const { branches, cities } = await import("../src/lib/content/branches.ts");
+
+const UA = "princes-coffee-site/1.0 (branch geocoding; contact info@princes.sa)";
+const cityEn = Object.fromEntries(cities.map((c) => [c.id, c.en]));
+const cityArabic = Object.fromEntries(cities.map((c) => [c.id, c.ar]));
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function query(q) {
+  const url =
+    "https://nominatim.openstreetmap.org/search?" +
+    new URLSearchParams({
+      q,
+      format: "json",
+      limit: "1",
+      countrycodes: "sa",
+      addressdetails: "0",
+    });
+  const res = await fetch(url, { headers: { "User-Agent": UA, "Accept-Language": "en" } });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const json = await res.json();
+  return json[0] ?? null;
+}
+
+const results = [];
+
+// City centroids, resolved once. Any branch that lands exactly on one of
+// these was not really located, whatever attempt produced it.
+const centroids = {};
+for (const c of cities) {
+  const hit = await query(`${c.en}, Saudi Arabia`);
+  if (hit) centroids[c.id] = { lat: Number(hit.lat), lng: Number(hit.lon) };
+  await sleep(1100);
+}
+
+const km = (a, b) => {
+  const R = 6371;
+  const dLat = ((b.lat - a.lat) * Math.PI) / 180;
+  const dLng = ((b.lng - a.lng) * Math.PI) / 180;
+  const la1 = (a.lat * Math.PI) / 180;
+  const la2 = (b.lat * Math.PI) / 180;
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(la1) * Math.cos(la2) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+};
+
+// Nominatim happily returns same-named districts in the wrong province —
+// "الهدا" resolves near Riyadh, 800km from Makkah. Anything further than
+// this from its own city is a different place, not a branch.
+const MAX_KM_FROM_CITY = 70;
+
+const isCentroid = (cityId, lat, lng) => {
+  const c = centroids[cityId];
+  return c && Math.abs(c.lat - lat) < 1e-4 && Math.abs(c.lng - lng) < 1e-4;
+};
+
+for (const b of branches) {
+  // Strip plus-codes and leading building numbers: Nominatim handles neither.
+  const cleanedEn = b.addressEn
+    .replace(/[A-Z0-9]{4}\+[A-Z0-9]{2,3}/gi, "")
+    .replace(/^\s*\d+\s+/, "")
+    .replace(/\s{2,}/g, " ")
+    .replace(/^[,\s]+|[,\s]+$/g, "");
+
+  const cityAr = cityArabic[b.city];
+
+  // Arabic first: OSM's Saudi coverage is largely tagged in Arabic, and
+  // district names ("حي X") resolve far more reliably than transliterations.
+  const attempts = [
+    `حي ${b.ar}، ${cityAr}`,
+    `${b.ar}، ${cityAr}`,
+    b.addressAr,
+    `${cleanedEn}, Saudi Arabia`,
+    `${b.en.replace(/^Al-/, "")}, ${cityEn[b.city]}, Saudi Arabia`,
+  ];
+
+  let best = null;
+
+  for (const attempt of attempts) {
+    let hit = null;
+    try {
+      hit = await query(attempt);
+    } catch (err) {
+      console.warn(`  ${b.slug}: ${err.message}`);
+    }
+    await sleep(1100);
+    if (!hit) continue;
+
+    const lat = Number(Number(hit.lat).toFixed(6));
+    const lng = Number(Number(hit.lon).toFixed(6));
+
+    // A city-centroid answer is a non-answer — keep it only as a last resort
+    // and keep looking for something specific.
+    if (isCentroid(b.city, lat, lng)) {
+      best ??= { lat, lng, quality: "city", matched: String(hit.display_name).slice(0, 90) };
+      continue;
+    }
+
+    const c = centroids[b.city];
+    if (c && km(c, { lat, lng }) > MAX_KM_FROM_CITY) {
+      console.warn(
+        `  reject ${b.slug}: ${km(c, { lat, lng }).toFixed(0)}km from ${b.city}`,
+      );
+      continue;
+    }
+
+    best = { lat, lng, quality: "district", matched: String(hit.display_name).slice(0, 90) };
+    break;
+  }
+
+  if (!best) {
+    const c = centroids[b.city];
+    if (!c) {
+      console.log(`MISS     ${b.slug}`);
+      continue;
+    }
+    best = { lat: c.lat, lng: c.lng, quality: "city", matched: "city centroid" };
+  }
+
+  results.push({ slug: b.slug, ...best });
+  console.log(`${best.quality.padEnd(8)} ${b.slug.padEnd(24)} ${best.lat}, ${best.lng}`);
+}
+
+const out = `/**
+ * GENERATED by scripts/geocode-branches.mjs — do not hand-edit casually.
+ *
+ * APPROXIMATE coordinates from OpenStreetMap Nominatim. They resolve the
+ * street or district in each address, not the shop unit, so a pin may sit
+ * some way from the actual door. Accurate enough to rank branches by
+ * distance and orient a map; NOT survey data.
+ *
+ * \`quality\` records how the match was obtained:
+ *   "district" — resolved to the branch district (usable for proximity)
+ *   "city"     — only the city centroid was found. Several branches will
+ *                share these coordinates, so proximity ranking between
+ *                them is meaningless. Replace these first.
+ *
+ * Replace any entry with exact values when you have them.
+ */
+
+export interface BranchCoords {
+  lat: number;
+  lng: number;
+  quality: "district" | "city" | "exact";
+}
+
+export const branchCoords: Record<string, BranchCoords> = {
+${results
+  .map(
+    (r) =>
+      `  ${JSON.stringify(r.slug)}: { lat: ${r.lat}, lng: ${r.lng}, quality: ${JSON.stringify(
+        r.quality,
+      )} }, // ${r.matched}`,
+  )
+  .join("\n")}
+};
+`;
+
+fs.writeFileSync(path.join(ROOT, "src/lib/content/branch-coords.ts"), out, "utf8");
+
+const byQuality = results.reduce((a, r) => ((a[r.quality] = (a[r.quality] ?? 0) + 1), a), {});
+console.log(
+  `\nwrote src/lib/content/branch-coords.ts — ${results.length}/${branches.length} located`,
+  byQuality,
+);
