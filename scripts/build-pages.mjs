@@ -194,10 +194,20 @@ async function main() {
 
   let buildSuccess = false;
   try {
+    const repoName = process.env.GITHUB_REPOSITORY
+      ? `/${process.env.GITHUB_REPOSITORY.split("/")[1]}`
+      : "/coffeeloyal";
+
+    const basePath =
+      process.env.NEXT_PUBLIC_BASE_PATH !== undefined
+        ? process.env.NEXT_PUBLIC_BASE_PATH
+        : repoName;
+
     const env = {
       ...process.env,
       STATIC_EXPORT: "true",
       NEXT_PUBLIC_STATIC_EXPORT: "true",
+      NEXT_PUBLIC_BASE_PATH: basePath,
     };
 
     console.log("[build-pages] Running Next.js build...");

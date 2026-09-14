@@ -49,6 +49,8 @@ const SITE_NAME = "Princes' Coffee — قهوة الأمراء";
 const SITE_DESC =
   "رشفة من الفخامة واللذة — قهوة سعودية مختصة، ٣٧ فرعاً في جدة ومكة والطائف.";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://princes.sa"),
   title: {
@@ -56,8 +58,8 @@ export const metadata: Metadata = {
     template: `%s — ${SITE_NAME}`,
   },
   description: SITE_DESC,
-  icons: { icon: "/logo.png", apple: "/logo.png" },
-  manifest: "/manifest.json",
+  icons: { icon: `${basePath}/logo.png`, apple: `${basePath}/logo.png` },
+  manifest: `${basePath}/manifest.json`,
   appleWebApp: {
     capable: true,
     title: "Princes' Coffee",
