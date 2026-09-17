@@ -110,8 +110,12 @@ export default function AboutPage() {
             </h2>
             <hr className="hairline-gold mx-auto my-6 max-w-[5rem]" />
             <blockquote className="font-brand-serif text-lg md:text-xl italic leading-relaxed text-[#181512]">
-              “{t.about.ceo.body}”
+              “{t.about.ceo.lead}”
             </blockquote>
+            <div className="mt-6 space-y-4 text-sm leading-relaxed text-[#675E54] text-start max-w-2xl mx-auto">
+              <p>{t.about.ceo.body1}</p>
+              <p>{t.about.ceo.body2}</p>
+            </div>
           </Reveal>
         </div>
       </section>
