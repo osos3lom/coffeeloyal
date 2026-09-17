@@ -27,6 +27,7 @@ export default function FloatingNav() {
     { href: "/menu", label: t.nav.menu },
     { href: "/stores", label: t.nav.stores },
     { href: "/gallery", label: t.nav.gallery },
+    { href: "/blog", label: t.nav.blog },
     { href: "/contact", label: t.nav.contact },
   ];
 

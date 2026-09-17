@@ -1,9 +1,7 @@
 /**
  * Copy for the public brand site.
  *
- * Kept separate from translations.ts, which covers the authenticated app.
- * Branch and menu records live in src/lib/content — those are data with
- * ar/en fields, not translation keys.
+ * Sourced verbatim from princes.sa (Arabic and official English pages).
  */
 
 import type { Lang } from "./translations";
@@ -15,6 +13,7 @@ export interface MarketingCopy {
     menu: string;
     stores: string;
     gallery: string;
+    blog: string;
     contact: string;
     rewards: string;
     join: string;
@@ -32,7 +31,12 @@ export interface MarketingCopy {
     secondary: string;
     scroll: string;
   };
-  trust: { branches: string; cities: string; craft: string };
+  trust: {
+    branches: string;
+    cities: string;
+    craft: string;
+    strip: string;
+  };
   heritage: {
     eyebrow: string;
     title: string;
@@ -41,7 +45,11 @@ export interface MarketingCopy {
     body2: string;
     cta: string;
   };
-  craft: { eyebrow: string; title: string; lede: string };
+  craft: {
+    eyebrow: string;
+    title: string;
+    lede: string;
+  };
   menu: {
     eyebrow: string;
     title: string;
@@ -134,10 +142,41 @@ export interface MarketingCopy {
     eyebrow: string;
     title: string;
     storyTitle: string;
+    storyLead: string;
     story1: string;
     story2: string;
+    tagline: string[];
+    mission: {
+      title: string;
+      lead: string;
+      body: string;
+    };
+    vision: {
+      title: string;
+      lead: string;
+      body: string;
+    };
+    ceo: {
+      title: string;
+      lead: string;
+      body1: string;
+      body2: string;
+    };
     valuesTitle: string;
     valuesLede: string;
+  };
+  blog: {
+    eyebrow: string;
+    title: string;
+    lede: string;
+    readMore: string;
+    backToBlog: string;
+    availableInArabic: string;
+    allArticles: string;
+    latestArticles: string;
+  };
+  caffeine: {
+    note: string;
   };
   footer: {
     tagline: string;
@@ -155,6 +194,7 @@ const ar: MarketingCopy = {
     menu: "القائمة",
     stores: "فروعنا",
     gallery: "معرض الصور",
+    blog: "المدونة",
     contact: "اتصل بنا",
     rewards: "المكافآت",
     join: "انضم إلينا",
@@ -164,41 +204,42 @@ const ar: MarketingCopy = {
     language: "اللغة",
   },
   hero: {
-    eyebrow: "منذ ١٩٩٣ · من جدة",
+    eyebrow: "منذ ١٩٩٣ · جدة",
     title: "قهوة الأمراء",
-    tagline: "رشفة من الفخامة واللذة",
-    lede: "قهوة سعودية مختصة، تُحمّص بعناية وتُقدّم بكرم الضيافة، في سبعة وثلاثين فرعاً.",
-    primary: "انضم لبرنامج الولاء",
-    secondary: "تصفح القائمة",
+    tagline: "رشفة من الفخامة واللذة.",
+    lede: "لكل كوبٍ قصة، ولكل رشفةٍ رحلة.",
+    primary: "تصفح القائمة",
+    secondary: "انضم لبرنامج الولاء",
     scroll: "اكتشف",
   },
   trust: {
     branches: "٣٧ فرعاً",
     cities: "جدة · مكة · الطائف",
     craft: "حبٌّ مُنتقى بعناية",
+    strip: "منذ ١٩٩٣ · ٣٧ فرعاً · جدة · مكة · الطائف",
   },
   heritage: {
     eyebrow: "من نحن",
     title: "لكل كوبٍ قصة، ولكل رشفةٍ رحلة",
-    quote: "لكل كوبٍ قصة، ولكل رشفةٍ رحلة",
+    quote: "لكل كوبٍ قصة، ولكل رشفةٍ رحلة.",
     body1:
-      "تبدأ الحكاية من حبّة بنٍّ مُحمّصة، تقطع طريقها من المزرعة إلى المحمصة، ثم إلى فنجانٍ يُقدَّم بين يديك.",
+      "كل مشروب في قهوة الأمراء له رحلة ومغامرة تبدأ بعبق حبوب القهوة المحمصة التي تثير سمفونية من النكهات، فتأخذك في تجربةٍ استثنائية وفريدة.",
     body2:
       "نحن لا نقدّم القهوة وحدها، بل نقدّم تجربةً كاملة: مكانٌ هادئ، واستقبالٌ كريم، ورشفةٌ تستحق الانتظار.",
     cta: "اقرأ قصتنا",
   },
   craft: {
-    eyebrow: "لماذا قهوة الأمراء",
-    title: "الحرفة في التفاصيل",
-    lede: "ستة مبادئ تحكم كل فنجانٍ نقدّمه.",
+    eyebrow: "قهوة الأمراء",
+    title: "لماذا نحن",
+    lede: "أقوى المعايير لمزاج قهوةٍ لا يُقاوم.",
   },
   menu: {
     eyebrow: "القائمة",
-    title: "ما نقدّمه",
-    lede: "قهوة مختصة، مشروبات باردة، شاي، ومخبوزات طازجة كل صباح.",
+    title: "مشروباتنا ومخبوزاتنا",
+    lede: "مذاقٌ لا مثيل له مع كل رشفة.",
     signature: "اختياراتنا المميزة",
     cta: "القائمة كاملة",
-    currency: "ر.س",
+    currency: "ريال",
     regular: "وسط",
     large: "كبير",
     addToOrder: "أضف للطلب",
@@ -208,7 +249,7 @@ const ar: MarketingCopy = {
   loyalty: {
     eyebrow: "برنامج الولاء",
     title: "بطاقة الأختام الملكية",
-    lede: "اجمع أختامك مع كل رشفة، واحصل على مشروبك المجاني.",
+    lede: "اجمع أختامك مع كل رشفة واحصل على مشروبك المجاني.",
     step1Title: "امسح",
     step1Body: "امسح رمز الباريستا عند الطلب.",
     step2Title: "اجمع",
@@ -228,7 +269,7 @@ const ar: MarketingCopy = {
   },
   stores: {
     eyebrow: "فروعنا",
-    title: "قريبون منك",
+    title: "قريبون منك في كل مكان",
     lede: "سبعة وثلاثون فرعاً في جدة ومكة المكرمة والطائف.",
     cta: "كل الفروع",
     search: "ابحث عن فرع أو حي",
@@ -278,7 +319,7 @@ const ar: MarketingCopy = {
   contact: {
     eyebrow: "اتصل بنا",
     title: "نسعد بخدمتك",
-    lede: "للاستفسارات والشراكات، تواصل معنا مباشرة.",
+    lede: "للاستفسارات والطلب، تواصل معنا مباشرة.",
     callUs: "اتصل بنا",
     emailUs: "راسلنا",
     whatsapp: "واتساب",
@@ -289,15 +330,48 @@ const ar: MarketingCopy = {
     eyebrow: "من نحن",
     title: "قصة قهوة الأمراء",
     storyTitle: "قصتنا",
+    storyLead: "من كوب قهوةٍ، إلى قصةٍ تُروى",
     story1:
-      "بدأت قهوة الأمراء من إيمانٍ بسيط: أن الفنجان الجيد يستحق وقتاً، وأن الضيف يستحق أفضل ما لدينا.",
+      "نشأت شركة قهوة الأمراء في عام 1993 كعضو في مجموعة بن بنيان التجارية، ومن البداية كان حب القهوة هو شغفنا والتميّز هدفنا. تحدينا العقبات واحتضنا التغيير وزاد شغفنا بالقهوة، فالتزمنا بالجودة في كل مشروب وكل فرع. واليوم تملك قهوة الأمراء أكثر من 35 مقهى، كل فرع منها هو شاهدٌ على تاريخنا الغني وتفانينا في مهمة تحضير أفضل قهوة في العالم.",
     story2:
-      "اليوم نخدم ضيوفنا في سبعة وثلاثين فرعاً بين جدة ومكة المكرمة والطائف، بالمبادئ نفسها التي بدأنا بها.",
+      "انغمِس في عبق القهوة ورائحتها المخملية مع قهوة الأمراء واستمتع بمذاقٍ لا مثيل له! دع كل رشفة تنقلك إلى عالم من النكهات والتجارب. وسواء كنت تفضل أن تقضي وقتك في أحد مقاهينا أو تحب شرب كوب قهوتك براحة في منزلك فإن مجموعتنا من المشروبات هي قصةٌ تستحق أن تُروى وذكرى تستحق أن تُعاش.",
+    tagline: ["تاريخٌ عريقٌ،", "لمستقبلٍ مشرق."],
+    mission: {
+      title: "رسالتنا",
+      lead: "نصنع تجربة قهوة استثنائية",
+      body: "بالعمل الدؤوب والابتكار والتطور باستمرار نعمل لنبقى في طليعة المجال، ونسعى للحفاظ على وعدنا بجلب قهوة استثنائية وتجربة فريدة لعملائنا، فنهتم بالتخطيط الدقيق والمتفاني لنحقق تطلعاتنا بخلق مقهى يلبي احتياج رواد عالم القهوة ويكون صديق للبيئة.",
+    },
+    vision: {
+      title: "رؤيتنا",
+      lead: "أن نكون رواد القهوة المختصة",
+      body: "نطمح أن نصبح شركة عالمية رائدة في مجال القهوة المتخصصة، وبناء مقاهي تساهم برفع جودة حياة المجتمع وتدعم الاستدامة",
+    },
+    ceo: {
+      title: "رسالة الرئيس التنفيذي",
+      lead: "مزيجٌ من الشغف والأهداف في كوب قهوة.",
+      body1:
+        "منذ نشأتنا كرسنا جهودنا للتأكد من أن قهوتنا تحافظ على الجودة على مدى أجيال. ومن منطلق الالتزام بجذورنا حافظنا على أصالتنا، كما نحرص على استدامة القهوة لنمنح الأجيال القادمة فرصة للاستمتاع بحبوب البن كما حظينا.",
+      body2:
+        "شغفنا يتجاوز تحضير قهوة استثنائية، إذ نؤمن بالسعي الجاد لتحقيق الاستدامة، والتحول من البلاستيك إلى الورق لمصلحة كوكبنا. ونطمح أن نجعل العالم مكانًا أفضل مع كل كوب قهوة مثالي في كل مرة.",
+    },
     valuesTitle: "قيمنا",
-    valuesLede: "ما نلتزم به في كل فرعٍ وكل فنجان.",
+    valuesLede: "أقوى المعايير لمزاج قهوةٍ لا يُقاوم.",
+  },
+  blog: {
+    eyebrow: "قهوة الأمراء",
+    title: "المدونة",
+    lede: "مقالات وقصص عن ثقافة القهوة، تاريخها وفوائدها الصحية.",
+    readMore: "اقرأ المقال",
+    backToBlog: "العودة للمدونة",
+    availableInArabic: "متوفر بالعربية",
+    allArticles: "جميع المقالات",
+    latestArticles: "أحدث المقالات",
+  },
+  caffeine: {
+    note: "قد تكون القهوة حبة سحرية، لكنها ليست مثالية يمكن أن يسبب الإفراط في تناول الكافيين الجفاف التوتر والقلق، كما أن الإفراط في تناول الكافيين يمكن أن يتعارض مع النوم الجيد ليلاً، خاصةً إذا كنت تشربه في وقت متأخر من النهار.",
   },
   footer: {
-    tagline: "رشفة من الفخامة واللذة",
+    tagline: "رشفة من الفخامة واللذة.",
     explore: "تصفح",
     company: "الشركة",
     contact: "تواصل",
@@ -308,11 +382,12 @@ const ar: MarketingCopy = {
 const en: MarketingCopy = {
   nav: {
     home: "Home",
-    about: "About",
+    about: "About Us",
     menu: "Menu",
-    stores: "Stores",
-    gallery: "Gallery",
-    contact: "Contact",
+    stores: "Our Branches",
+    gallery: "Photo Gallery",
+    blog: "Blog",
+    contact: "Contact Us",
     rewards: "Rewards",
     join: "Join",
     myRewards: "My Rewards",
@@ -321,40 +396,41 @@ const en: MarketingCopy = {
     language: "Language",
   },
   hero: {
-    eyebrow: "Since 1993 · From Jeddah",
+    eyebrow: "Since 1993 · Jeddah",
     title: "Princes' Coffee",
-    tagline: "A sip of luxury and delight",
-    lede: "Saudi specialty coffee, roasted with care and served with genuine hospitality, across thirty-seven branches.",
-    primary: "Join the loyalty programme",
-    secondary: "Browse the menu",
+    tagline: "A sip of bliss, a gulp of luxury.",
+    lede: "Every cup has a story, every sip a journey.",
+    primary: "Browse the Menu",
+    secondary: "Join Loyalty Program",
     scroll: "Discover",
   },
   trust: {
     branches: "37 Branches",
     cities: "Jeddah · Makkah · Taif",
     craft: "Carefully selected beans",
+    strip: "Since 1993 · 37 Branches · Jeddah · Makkah · Taif",
   },
   heritage: {
-    eyebrow: "About us",
+    eyebrow: "About Us",
     title: "Every cup has a story, every sip a journey",
-    quote: "Every cup has a story, every sip a journey",
+    quote: "Every cup has a story, every sip a journey.",
     body1:
-      "It begins with a roasted bean making its way from the farm to the roastery, and then to a cup served into your hands.",
+      "At Princes’ Coffee, each sip is a perfectly brewed adventure. The scent of our coffee prepares your tastebuds for a symphony of flavors, teleporting you into a world of happiness, comfort, and exquisite taste.",
     body2:
       "We do not serve coffee alone. We serve the whole experience: a quiet room, a generous welcome, and a sip worth waiting for.",
     cta: "Read our story",
   },
   craft: {
-    eyebrow: "Why Princes' Coffee",
-    title: "The craft is in the detail",
-    lede: "Six principles behind every cup we serve.",
+    eyebrow: "Princes' Coffee",
+    title: "Why Us",
+    lede: "The strongest criteria for an irresistible coffee mood.",
   },
   menu: {
-    eyebrow: "The menu",
-    title: "What we serve",
-    lede: "Specialty coffee, cold drinks, tea, and pastries baked fresh each morning.",
-    signature: "Our signatures",
-    cta: "See the full menu",
+    eyebrow: "Our Menu",
+    title: "What We Serve",
+    lede: "Unparalleled flavor with every sip.",
+    signature: "Our Signatures",
+    cta: "Full Menu",
     currency: "SAR",
     regular: "Regular",
     large: "Large",
@@ -363,9 +439,9 @@ const en: MarketingCopy = {
     all: "All",
   },
   loyalty: {
-    eyebrow: "Loyalty programme",
+    eyebrow: "Loyalty Program",
     title: "The Royal Stamp Card",
-    lede: "Collect a stamp with every sip, and earn your drink on us.",
+    lede: "Collect stamps with every sip and earn your free drink.",
     step1Title: "Scan",
     step1Body: "Scan the barista's code when you order.",
     step2Title: "Collect",
@@ -379,13 +455,13 @@ const en: MarketingCopy = {
   },
   gallery: {
     eyebrow: "Hospitality",
-    title: "A room that invites you to stay",
+    title: "A space that invites you to stay",
     lede: "From the details of the space to the details of the cup.",
     cta: "View the gallery",
   },
   stores: {
-    eyebrow: "Our branches",
-    title: "Close to you",
+    eyebrow: "Our Branches",
+    title: "Close to you everywhere",
     lede: "Thirty-seven branches across Jeddah, Makkah and Taif.",
     cta: "All branches",
     search: "Search a branch or district",
@@ -434,7 +510,7 @@ const en: MarketingCopy = {
     remove: "Remove",
   },
   contact: {
-    eyebrow: "Contact",
+    eyebrow: "Contact Us",
     title: "We'd be glad to help",
     lede: "For enquiries and partnerships, reach us directly.",
     callUs: "Call us",
@@ -444,18 +520,51 @@ const en: MarketingCopy = {
     follow: "Follow us",
   },
   about: {
-    eyebrow: "About",
-    title: "The Princes' Coffee story",
+    eyebrow: "About Us",
+    title: "The Princes' Coffee Story",
     storyTitle: "Our story",
+    storyLead: "From a cup of coffee to a story to tell",
     story1:
-      "Princes' Coffee began with a simple belief: a good cup deserves time, and a guest deserves the best of what we have.",
+      "Princes coffee company was established in 1993 as a member of Ben Bunyan trading group, and from the very beginning the love of coffee was our passion and excellence was our goal. We have defied obstacles, embraced change and increased our passion for coffee, committing to quality in every drink and every branch. Today, Princes coffee owns more than 35 cafes, each branch of which is a testament to our rich history and dedication to the task of preparing the best coffee in the world.",
     story2:
-      "Today we serve our guests across thirty-seven branches in Jeddah, Makkah and Taif, on the same principles we started with.",
+      "Immerse yourself in the fragrant and velvety aroma of coffee with Princes ' coffee and enjoy an unparalleled taste! Let every sip take you into a world of flavors and experiments. Whether you prefer to spend your time in one of our cafes or like to drink your cup of coffee from the comfort of your own home, our range of drinks is a story worth telling and a memory worth living.",
+    tagline: ["Ancient history,", "For a bright future."],
+    mission: {
+      title: "Our mission",
+      lead: "We craft an exceptional coffee experience",
+      body: "We strive to keep our promise to bring exceptional coffee and a unique experience to our customers, we are interested in careful and dedicated planning to achieve our aspirations by creating a cafe that meets the needs of the pioneers of the coffee world and is environmentally friendly.",
+    },
+    vision: {
+      title: "Our vision",
+      lead: "To be the pioneers of specialty coffee",
+      body: "we aspire to become a leading global company in the field of specialty coffee, and to build cafes that contribute to raising the quality of life of society and support sustainability",
+    },
+    ceo: {
+      title: "Message from the CEO",
+      lead: "A combination of passion and goals in a cup of coffee.",
+      body1:
+        "Since our inception we have dedicated our efforts to ensure that our coffee maintains quality over generations. Out of commitment to our roots, we have preserved our authenticity, and we are also keen on the sustainability of coffee to give future generations the opportunity to enjoy coffee beans as we had.",
+      body2:
+        "Our passion goes beyond making exceptional coffee, as we believe in striving for sustainability, and switching from plastic to paper for the benefit of our planet. We aspire to make the world a better place with every perfect cup of coffee every time.",
+    },
     valuesTitle: "Our values",
-    valuesLede: "What we hold to in every branch and every cup.",
+    valuesLede: "The strongest criteria for an irresistible coffee mood.",
+  },
+  blog: {
+    eyebrow: "Princes' Coffee",
+    title: "Blog",
+    lede: "Stories and insights on coffee culture, history, and health benefits.",
+    readMore: "Read article",
+    backToBlog: "Back to blog",
+    availableInArabic: "Available in Arabic",
+    allArticles: "All Articles",
+    latestArticles: "Latest Articles",
+  },
+  caffeine: {
+    note: "Coffee may be a magic bean, but it is not perfect. Excessive caffeine consumption can cause dehydration, tension, and anxiety. Excessive caffeine intake can also interfere with a good night's sleep, especially if you drink it late in the day.",
   },
   footer: {
-    tagline: "A sip of luxury and delight",
+    tagline: "A sip of bliss, a gulp of luxury.",
     explore: "Explore",
     company: "Company",
     contact: "Contact",

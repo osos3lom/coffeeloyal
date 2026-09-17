@@ -76,7 +76,7 @@ export default function Hero() {
           >
             {/* The single gold action above the fold. */}
             <Button asChild variant="gold" size="xl" className="w-full sm:w-auto">
-              <Link href="/register">{t.hero.primary}</Link>
+              <Link href="/menu">{t.hero.primary}</Link>
             </Button>
             <Button
               asChild
@@ -84,7 +84,7 @@ export default function Hero() {
               size="xl"
               className="w-full rounded-full border-[#DDD9CC] bg-transparent sm:w-auto"
             >
-              <Link href="/menu">{t.hero.secondary}</Link>
+              <Link href="/register">{t.hero.secondary}</Link>
             </Button>
           </div>
         </div>

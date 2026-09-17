@@ -21,6 +21,7 @@ export default function SiteFooter() {
     { href: "/menu", label: t.nav.menu },
     { href: "/stores", label: t.nav.stores },
     { href: "/gallery", label: t.nav.gallery },
+    { href: "/blog", label: t.nav.blog },
     { href: "/rewards", label: t.nav.rewards },
   ];
 
@@ -143,7 +144,14 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-3 border-t border-[#2A241E] pt-6 text-[0.75rem] text-[#6F6659] sm:flex-row sm:items-center sm:justify-between">
+        {/* Caffeine note from princes.sa */}
+        <div className="mt-14 border-t border-[#2A241E] pt-8">
+          <p className="text-xs leading-relaxed text-[#8A8175] text-pretty">
+            {t.caffeine.note}
+          </p>
+        </div>
+
+        <div className="mt-6 flex flex-col gap-3 border-t border-[#2A241E] pt-6 text-[0.75rem] text-[#6F6659] sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} — {t.footer.rights}
           </p>

@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/LanguageContext";
 import LangSwitcher from "@/components/LangSwitcher";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
@@ -37,10 +37,30 @@ function LoginForm() {
     else router.push("/");
   }
 
+  const isStatic = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    if (isStatic) {
+      const lower = email.toLowerCase();
+      const role: "customer" | "staff" | "admin" = lower.includes("admin")
+        ? "admin"
+        : lower.includes("staff")
+        ? "staff"
+        : "customer";
+
+      const { setDemoRole } = await import("@/lib/demo/demo-session");
+      setDemoRole(role);
+      setLoading(false);
+      if (role === "admin") router.push("/admin");
+      else if (role === "staff") router.push("/staff");
+      else router.push(next === "/" ? "/dashboard" : next);
+      return;
+    }
+
     const result = await signIn("credentials", { email, password, redirect: false });
     setLoading(false);
     if (result?.error) {
@@ -89,6 +109,55 @@ function LoginForm() {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {isStatic && (
+              <div className="mb-5 rounded-xl border border-[#C5A869]/40 bg-[#FAF7F0] p-3.5 text-xs text-[#181512]">
+                <p className="font-semibold text-[#886C37] mb-2 flex items-center gap-1.5">
+                  <Sparkles className="size-3.5" />
+                  تسجيل دخول سريع لنسخة العرض:
+                </p>
+                <div className="grid grid-cols-3 gap-1.5">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    className="h-8 text-[0.6875rem] border-[#C5A869]/50 bg-white hover:bg-[#F3F3ED]"
+                    onClick={async () => {
+                      const { setDemoRole } = await import("@/lib/demo/demo-session");
+                      setDemoRole("customer");
+                      router.push(next === "/" ? "/dashboard" : next);
+                    }}
+                  >
+                    عميل
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    className="h-8 text-[0.6875rem] border-[#C5A869]/50 bg-white hover:bg-[#F3F3ED]"
+                    onClick={async () => {
+                      const { setDemoRole } = await import("@/lib/demo/demo-session");
+                      setDemoRole("staff");
+                      router.push("/staff");
+                    }}
+                  >
+                    موظف
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    className="h-8 text-[0.6875rem] border-[#C5A869]/50 bg-white hover:bg-[#F3F3ED]"
+                    onClick={async () => {
+                      const { setDemoRole } = await import("@/lib/demo/demo-session");
+                      setDemoRole("admin");
+                      router.push("/admin");
+                    }}
+                  >
+                    إدارة
+                  </Button>
+                </div>
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
                 <div className="rounded-xl bg-red-50/80 px-3.5 py-2.5 text-xs font-medium text-red-700 border border-red-200">

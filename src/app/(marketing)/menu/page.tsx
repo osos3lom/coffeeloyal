@@ -37,6 +37,8 @@ function MenuContent() {
     })),
   ];
 
+  const activeCategory = menuCategories.find((c) => c.id === filter);
+
   return (
     <>
       <PageHeader
@@ -69,6 +71,18 @@ function MenuContent() {
       </div>
 
       <div className="mx-auto w-full max-w-6xl px-[var(--gutter)] py-12 md:py-16">
+        {activeCategory && (
+          <div className="mb-10 rounded-xl border border-[#E5E3D8] bg-white p-6 md:p-8 shadow-sm">
+            <h2 className="font-brand-serif text-2xl font-bold text-[#181512]">
+              {isAr ? activeCategory.ar : activeCategory.en}
+            </h2>
+            <hr className="hairline-gold my-3 max-w-[3rem]" />
+            <p className="leading-relaxed text-[#675E54] text-base">
+              {isAr ? activeCategory.descAr : activeCategory.descEn}
+            </p>
+          </div>
+        )}
+
         <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4">
           {shown.map((item) => (
             <li key={item.slug}>

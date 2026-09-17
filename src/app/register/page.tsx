@@ -33,10 +33,22 @@ export default function RegisterPage() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
+  const isStatic = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    if (isStatic) {
+      const { setDemoRole } = await import("@/lib/demo/demo-session");
+      const targetRole = form.role === "staff" ? "staff" : "customer";
+      setDemoRole(targetRole);
+      setLoading(false);
+      router.push(targetRole === "staff" ? "/staff" : "/dashboard");
+      return;
+    }
+
     const res = await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

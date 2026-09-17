@@ -80,7 +80,7 @@ export default function MenuPreview() {
                     {isAr ? item.ar : item.en}
                   </span>
                   <span className="mt-0.5 block truncate text-[0.75rem] text-[#968D82]">
-                    {isAr ? item.en : item.ar}
+                    {isAr ? (item.tagAr || item.en) : (item.tagEn || item.ar)}
                   </span>
                 </span>
                 <span

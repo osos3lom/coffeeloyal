@@ -154,6 +154,17 @@ export default function StaffScanPage() {
                   className="hidden"
                 />
               </label>
+
+              <div className="pt-2">
+                <Button
+                  onClick={() => checkRedemption("RWD-PRINCES-8921")}
+                  variant="gold"
+                  className="w-full h-11 gap-2 text-xs font-semibold shadow-sm"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  <span>محاكاة مسح كود استبدال العميل (سارة الأحمدي)</span>
+                </Button>
+              </div>
             </div>
           )}
 

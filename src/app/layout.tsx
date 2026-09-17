@@ -9,6 +9,7 @@ import {
 } from "next/font/google";
 import SessionProvider from "@/components/SessionProvider";
 import { LanguageProvider } from "@/lib/i18n/LanguageContext";
+import DemoGuide from "@/components/demo/DemoGuide";
 import { Toaster } from "@/components/ui/sonner";
 import type { Lang } from "@/lib/i18n/translations";
 import "./globals.css";
@@ -123,6 +124,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col bg-[#F8F7F3] text-[#181512]">
         <LanguageProvider initialLang={lang}>
           <SessionProvider>{children}</SessionProvider>
+          <DemoGuide />
           <Toaster position="top-center" />
         </LanguageProvider>
       </body>

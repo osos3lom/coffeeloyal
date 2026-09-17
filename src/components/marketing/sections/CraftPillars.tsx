@@ -9,11 +9,11 @@ import SectionHeading from "../SectionHeading";
 import Reveal from "../Reveal";
 
 const ICONS: Record<Pillar["icon"], LucideIcon> = {
-  gem: Gem,
+  bean: Gem,
   blend: Blend,
-  variety: LayoutGrid,
-  hospitality: HandHeart,
-  craft: Flame,
+  cup: LayoutGrid,
+  dallah: HandHeart,
+  gear: Flame,
   people: Users,
 };
 

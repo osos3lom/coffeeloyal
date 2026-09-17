@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, Camera, Upload, RefreshCw, CheckCircle2, AlertCircle } from "lucide-react";
+import { ArrowLeft, Camera, Upload, RefreshCw, CheckCircle2, AlertCircle, Sparkles } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/LanguageContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -127,6 +127,17 @@ export default function ScanPage() {
                   className="hidden"
                 />
               </label>
+
+              <div className="pt-2">
+                <Button
+                  onClick={() => claimPoints("PRINCES-DEMO-QR-TOKEN")}
+                  variant="gold"
+                  className="w-full h-11 gap-2 text-xs font-semibold shadow-sm"
+                >
+                  <Sparkles className="h-4 w-4" />
+                  <span>محاكاة مسح كود QR (+١ ختم لفرع التحلية)</span>
+                </Button>
+              </div>
             </div>
           )}
 

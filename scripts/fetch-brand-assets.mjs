@@ -107,6 +107,14 @@ const MANIFEST = [
   ["2023/04/مافن-كيك-الشوكولاتة--scaled.jpg", "menu/chocolate-muffin.jpg"],
   ["2023/04/مافن-كيك-بالفانيلا-.jpg", "menu/vanilla-muffin.jpg"],
   ["2023/04/دونات-1-scaled.jpg", "menu/donut.jpg"],
+
+  // --- Blog ---
+  ["2023/06/اسبريسو--scaled.jpg", "blog/espresso.jpg"],
+  ["2023/04/124-1-scaled.jpg", "blog/saudi-coffee.jpg"],
+  ["2023/04/22-scaled.jpg", "blog/sweetening.jpg"],
+  ["2023/06/53-1-scaled.jpg", "blog/history.jpg"],
+  ["2023/06/54-scaled.jpg", "blog/benefits.jpg"],
+  ["2023/06/36.jpg", "blog/culture.jpg"],
 ];
 
 async function download(srcPath, dest) {
